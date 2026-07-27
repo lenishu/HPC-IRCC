@@ -1,0 +1,132 @@
+You can save this text directly as a Markdown (.md) file to preserve the full cluster provisioning log.
+
+Markdown
+# HPC Cluster Node Provisioning Log: n005 & r005
+
+This document serves as the chronological engineering record for staging, debugging, and finalizing the definitions for compute node `n005` and its associated Baseboard Management Controller (BMC) `r005`.
+
+---
+
+## Phase 1: Base Configuration Staging
+
+The initial definitions were structured by mirroring the existing `n004` cluster baseline, while intentionally omitting variable inheritance attributes (`serialport`, `serialspeed`) to let them fallback to global cluster defaults automatically during network compilation.
+
+### Step 1.1: Compute Node Baseline Definition
+The base node object was staged under the standard hardware and operating system groups, followed by its primary network properties, kernel flags, link aggregation bonds (`bond0`), and high-throughput data tagging (`bond0.418` VLAN).
+
+```bash
+# Stage the primary compute node object slots
+nodeadd n005 groups=dell,alma9
+
+# Apply provisioning methods, target images, and kernel parameters
+chdef -t node n005 \
+  ip=192.168.246.206 \
+  bmc=r005 \
+  mgt=ipmi \
+  netboot=xnba \
+  installnic=mac \
+  arch=x86_64 \
+  os=alma9.7 \
+  provmethod=alma9.7-x86_64-netbootIB-compute \
+  chain="osimage=alma9.7-x86_64-netbootIB-compute" \
+  addkcmdline="biosdevname=0 net.ifnames=0"
+
+# Configure the LACP management bond network channel
+chdef -t node n005 \
+  nictypes.eth0=Ethernet \
+  nictypes.eth1=Ethernet \
+  nictypes.bond0=bond \
+  nicdevices.bond0="eth0|eth1" \
+  nicips.bond0=192.168.246.206 \
+  nicnetworks.bond0=net427 \
+  nicextraparams.bond0="mode=802.3ad miimon=100 ipv4.dns=192.168.246.2 ipv4.dns-search=roary.net"
+
+# Layer the high-throughput data VLAN fabric over the management bond
+chdef -t node n005 \
+  nictypes.bond0.418=vlan \
+  nicdevices.bond0.418=bond0 \
+  nicips.bond0.418=192.168.233.206 \
+  nicnetworks.bond0.418=data \
+  nichostnamesuffixes.bond0.418=-data
+
+# Bind cluster profiles and automated orchestration postscript sequences
+chdef -t node n005 \
+  profile=compute \
+  hostnames=n005 \
+  consoleenabled=1 \
+  postbootscripts=otherpkgs \
+  postscripts="syslog,remoteshell,syncfiles,setupntp,roary-sethostname,confignetwork,roary-repo-alma9,roary-ldap,roary-nouserlogin,roary-setuplustre,roary-slurm"
+Step 1.2: Out-of-Band Controller Staging
+The BMC tracking node r005 was created to allow dedicated IPMI out-of-band power routing. Correction Note: The hostname parameters were explicitly targeted back to r005 to prevent DNS conflicts with older server blades.
+
+Bash
+# Stage the management controller slot
+nodeadd r005 groups=mgt
+
+# Apply out-of-band IPs and management orchestration flags
+chdef -t node r005 \
+  ip=192.168.254.206 \
+  mgt=ipmi \
+  hostnames=r005 \
+  postbootscripts=otherpkgs \
+  postscripts="syslog,remoteshell,syncfiles,setupntp,panther-scan-nic,hardeths,otherpkgs"
+Phase 2: System Resolution & Network Discovery
+During initial testing, executing remote power flags via rpower r005 on threw a resolution block error because the underlying database updates had not yet been compiled into the management node's active routing lookup infrastructure.
+
+Step 2.1: Recompiling the Network Name Space
+To clear the routing block, the name space records were recompiled in their exact prerequisite operational order: makehosts (local table map expansion), followed by makedns (internal zone authority expansion).
+
+Bash
+# Register the new network endpoints into the local hosts file layout
+makehosts n005,r005
+
+# Incrementally push targeted zone file records straight to the DNS daemon
+makedns n005
+Step 2.2: Hard Execution & Sequential Capture
+With internal routing fully functional, the sequential auto-ingest engine was fired up and the physical server blade was powered on via its newly verified out-of-band endpoint to capture the physical interface signature.
+
+Bash
+# Open sequential auto-ingestion for the node scope target slot
+nodediscoverstart noderange=n005
+
+# Issue a hard power-on instruction over IPMI to wake the target hardware
+rpower r005 on
+Log Output Monitoring Verification:
+
+Plaintext
+Jun  4 13:55:18 hpcxcat dhcpd[2836154]: DHCPREQUEST for 192.168.246.43 from 18:03:73:ff:7f:d9 via eth3
+xcat: Node sequential discovery matching node n005 -> Captured Interface MAC: 40:5b:7f:dc:7e:d0
+Phase 3: Profile Finalization & Deployment Staging
+Step 3.1: Binding Captured Signatures
+The verified physical MAC address (40:5b:7f:dc:7e:d0) along with its identical structural tracking inventory asset model family label (Dell:R770) were injected back into the core database architecture.
+
+Bash
+# Lock down physical signatures and machine metadata attributes
+chdef -t node n005 mac="40:5b:7f:dc:7e:d0" mtm="Dell:R770"
+
+# Kill the discovery listener engine to freeze security baseline properties
+nodediscoverstop
+Step 3.2: Recompiling the Network Configuration Tables
+To ensure the DHCP server recognizes the brand new MAC signature mapping during PXE boot, the configuration maps were refreshed in order:
+
+Bash
+# Refresh local host definitions
+makehosts n005,r005
+
+# Reload targeted BIND zone entries
+makedns n005
+
+# Recompile the DHCP daemon leases to bind the MAC to network boot paths
+makedhcp n005
+Phase 4: OS Deployment Execution
+The node definitions are 100% complete, clean, and error-free. The following structural commands are locked and ready to deploy the operating system over the fabric:
+
+Bash
+# 1. Stage the network boot image target cleanly on the management server
+nodeset n005 osimage
+
+# 2. Issue an immediate hardware reset command over IPMI to pull down the PXE stream
+rpower n005 reset
+
+# 3. Hook into the serial console stream to track postscripts installation live
+rcons n005

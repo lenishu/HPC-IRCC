@@ -1,0 +1,64 @@
+xcat_osimage.txt
+
+Object name: alma9.7-x86_64-netboot-compute
+    exlist=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.exlist
+    imagetype=linux
+    osarch=x86_64
+    osdistroname=alma9.7-x86_64
+    osname=Linux
+    osvers=alma9.7
+    otherpkgdir=/install/post/otherpkgs/alma9.7/x86_64
+    pkgdir=/install/alma9.7/x86_64
+    pkglist=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.pkglist
+    postinstall=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.postinstall
+    profile=compute
+    provmethod=netboot
+    rootimgdir=/install/netboot/alma9.7/x86_64/compute
+Object name: alma9.7-x86_64-netboot-cudaruntime
+    exlist=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.exlist
+    imagetype=linux
+    kernelver=5.14.0-611.54.3.el9_7.x86_64
+    osarch=x86_64
+    osdistroname=alma9.7-x86_64
+    osname=Linux
+    osvers=alma9.7
+    otherpkgdir=/install/post/otherpkgs/alma9.7/x86_64
+    otherpkglist=/install/custom/netboot/alma/cudaruntime.alma9.7.x86_64.otherpkgs.pkglist
+    permission=755
+    pkgdir=/install/alma9.7/x86_64,/install/kernels/5.14.0-611.54.3.el9_7.x86_64
+    pkglist=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.pkglist
+    postinstall=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.postinstall
+    profile=compute
+    provmethod=netboot
+    rootimgdir=/install/netboot/alma9.7/x86_64/cudaruntime
+Object name: alma9.7-x86_64-netbootIB-compute
+    exlist=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.exlist
+    imagetype=linux
+    kernelver=5.14.0-611.54.3.el9_7.x86_64
+    osarch=x86_64
+    osdistroname=alma9.7-x86_64
+    osname=Linux
+    osvers=alma9.7
+    otherpkgdir=/install/post/otherpkgs/alma9.7/x86_64
+    otherpkglist=/install/custom/netboot/alma/ib.alma9.7.doca.pkglist
+    permission=755
+    pkgdir=/install/alma9.7/x86_64,/install/kernels/5.14.0-611.54.3.el9_7.x86_64
+    pkglist=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.pkglist
+    postinstall=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.postinstall
+    profile=compute
+    provmethod=netboot
+    rootimgdir=/install/netboot/alma9.7/x86_64/compute-ib
+Object name: alma9.7-x86_64-statelite-compute
+    exlist=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.exlist
+    imagetype=linux
+    osarch=x86_64
+    osdistroname=alma9.7-x86_64
+    osname=Linux
+    osvers=alma9.7
+    otherpkgdir=/install/post/otherpkgs/alma9.7/x86_64
+    pkgdir=/install/alma9.7/x86_64
+    pkglist=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.pkglist
+    postinstall=/opt/xcat/share/xcat/netboot/alma/compute.alma9.x86_64.postinstall
+    profile=compute
+    provmethod=statelite
+    rootimgdir=/install/netboot/alma9.7/x86_64/compute

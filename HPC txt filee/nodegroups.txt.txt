@@ -1,0 +1,43 @@
+nodegroups.txt
+
+Object name: 16C_128G
+    members=n001,n003,n009,n006,n007,n010,n012,n011
+Object name: R720
+    members=v003
+Object name: alma9
+    members=n126,login1,login2,hpcslurm,n127,n128,n129,n130,n131,n132,n133,n100,n098,n096,n102,n101,n097,n095,n099,dm01
+Object name: dell
+    members=login1,login2,n100,n098,n096,n102,n101,n097,n095,n099,n001,n003,n009,n006,n007,n010,n012,n011,dm01
+Object name: dm
+    members=dm01
+Object name: hpcdns
+    members=l01,l03,l02
+Object name: hpe
+    members=n126,n127,n128,n129,n130,n131,n132,n133
+Object name: ldap
+    ip=192.168.246.4
+    mac=00:15:5d:72:8b:19
+    members=ldap
+Object name: login
+    members=login1,login2
+Object name: mgmt
+    members=rg009
+Object name: mgt
+    members=r126,r127,r128,r129,r130,r131,r132,r133,r100,r097,r102,r101,r096,r095,r099,r009,r003,r001,r011,r012,r010,r007,r006,rlogin2,rlogin1,rdm01
+Object name: mirror
+    ip=192.168.246.5
+    members=mirror
+Object name: raptor
+    members=gpu-a100-07,gpu-a100-06,gpu-a100-05,gpu-a100-03,gpu-a100-04,gpu-a100-01,gpu-a100-02,cn1,g009
+Object name: raptor_ipmi
+    members=raptor07b,raptor06b,raptor02b,raptor05b,raptor04b,raptor03b,raptor01b
+Object name: slurmmn
+    members=hpcslurm
+Object name: viz
+    members=v003
+Object name: vizmgt
+    members=rv003
+Object name: xcatmn
+    members=hpcxcat
+
+
